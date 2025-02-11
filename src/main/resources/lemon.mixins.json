@@ -3,7 +3,7 @@
 	"package": "net.dustley.lemon.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+		"physics.PhysicsWorldMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
