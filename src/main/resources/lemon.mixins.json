@@ -1,11 +1,14 @@
 {
-	"required": true,
-	"package": "net.dustley.lemon.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"mixins": [
-		"physics.PhysicsWorldMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
-	}
+  "required": true,
+  "package": "net.dustley.lemon.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "physics.PhysicsWorldMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "freeze_frames.GameRenderMixin"
+  ]
 }
