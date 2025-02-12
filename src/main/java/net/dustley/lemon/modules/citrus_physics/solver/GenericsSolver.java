@@ -12,7 +12,6 @@ public class GenericsSolver extends Solver {
     public GenericsSolver(PhysicsWorld world, Dominion ecs) { super(world, ecs); }
 
     public void solve(double deltaTime) {
-        world.
         ecsWorld.findEntitiesWith(ActorComponent.class).stream().forEach(result -> {
             ActorComponent actor = result.comp();
 

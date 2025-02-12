@@ -1,5 +1,6 @@
 package net.dustley.lemon.modules.citrus_physics.component.constraint.single;
 
+import net.dustley.lemon.modules.citrus_physics.PhysicsWorld;
 import net.dustley.lemon.modules.citrus_physics.component.ActorComponent;
 import net.dustley.lemon.modules.citrus_physics.component.constraint.SingleBodyConstraint;
 import org.joml.Vector3d;
@@ -12,7 +13,7 @@ public class GravityConstraint extends SingleBodyConstraint {
         gravity = accel;
     }
 
-    public void solve(ActorComponent actor) {
-        actor.acceleration.add(gravity);
+    public void solve(ActorComponent actor, double deltaTime) {
+        actor.acceleration.add(gravity.div(PhysicsWorld.CONSTRAINT_RESOLUTION, new Vector3d()));
     }
 }

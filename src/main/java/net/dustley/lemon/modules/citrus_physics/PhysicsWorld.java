@@ -5,6 +5,7 @@ import dev.dominion.ecs.api.Entity;
 import dev.dominion.ecs.api.Scheduler;
 import net.dustley.lemon.mixin_duck.PhysicsWorldDuck;
 import net.dustley.lemon.modules.citrus_physics.component.constraint.Constraint;
+import net.dustley.lemon.modules.citrus_physics.component.constraint.ConstraintComponent;
 import net.dustley.lemon.modules.citrus_physics.component.constraint.multi.FixedDistanceConstraint;
 import net.dustley.lemon.modules.citrus_physics.component.constraint.single.GravityConstraint;
 import net.dustley.lemon.modules.citrus_physics.component.constraint.single.StaticConstraint;
@@ -15,6 +16,7 @@ import net.dustley.lemon.modules.citrus_physics.solver.Solver;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class PhysicsWorld {
@@ -23,7 +25,9 @@ public class PhysicsWorld {
     public Scheduler ecsScheduler;
 
     ArrayList<Solver> solvers = new ArrayList<>();
-    public ArrayList<Object> constraintTypes = new ArrayList<>();
+
+    public static int TICK_RATE = 45;
+    public static int CONSTRAINT_RESOLUTION = 16;
 
     // HELPER //
     public static PhysicsWorld getFromWorld(World world) { return ((PhysicsWorldDuck) world).getPhysics(); }
@@ -40,14 +44,7 @@ public class PhysicsWorld {
 
         applySystems();
 
-        // Register Constraints
-        constraintTypes.add(GravityConstraint.class);
-        constraintTypes.add(StaticConstraint.class);
-        constraintTypes.add(FixedDistanceConstraint.class);
-
-        applyConstraints();
-
-        ecsScheduler.tickAtFixedRate(5);
+        ecsScheduler.tickAtFixedRate(TICK_RATE);
     }
 
     public void tick() {
@@ -61,13 +58,7 @@ public class PhysicsWorld {
     // SPECIFICATIONS //
     public void applySystems() {
         for (Solver solver : solvers) {
-            ecsScheduler.schedule(() -> solver.solve(1f / 20f));
-        }
-    }
-
-    public void applyConstraints() {
-        for (Solver solver : solvers) {
-            ecsScheduler.schedule(() -> solver.solve(1f / 20f));
+            ecsScheduler.schedule(() -> solver.solve(1f / TICK_RATE));
         }
     }
 
@@ -78,6 +69,18 @@ public class PhysicsWorld {
     **/
     public Entity createEntity() {
         return ecsWorld.createEntity(UUID.randomUUID().toString());
+    }
+
+    public Entity addConstraint(Entity entity, Constraint... constraints) {
+        var constraint = entity.get(ConstraintComponent.class);
+        if(constraint == null) {
+            entity.add(new ConstraintComponent(constraints));
+            return entity;
+        }
+
+        constraint.constraints.addAll(List.of(constraints));
+
+        return entity;
     }
 
 }

@@ -9,6 +9,4 @@ public abstract class DoubleBodyConstraint extends Constraint {
 
     public DoubleBodyConstraint(Entity other) {this.other = other;}
 
-    public abstract void solve(ActorComponent actor);
-
 }

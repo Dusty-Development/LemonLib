@@ -14,7 +14,7 @@ public class FixedDistanceConstraint extends DoubleBodyConstraint {
         this.distance = distance;
     }
 
-    public void solve(ActorComponent actor) {
+    public void solve(ActorComponent actor, double deltaTime) {
         var otherActor = other.get(ActorComponent.class);
 
         if(actor.position.distance(otherActor.position) > distance) {

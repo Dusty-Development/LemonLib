@@ -12,7 +12,7 @@ public class StaticConstraint extends SingleBodyConstraint {
         position = lockPos;
     }
 
-    public void solve(ActorComponent actor) {
+    public void solve(ActorComponent actor, double deltaTime) {
         actor.position = new Vector3d(position);
     }
 }
