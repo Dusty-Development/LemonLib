@@ -44,6 +44,7 @@ public class FreezeFrameManager {
     }
 
     public static HudRenderCallback getOverlay() {
+        // gets the overlay
         return overlay;
     }
 }
