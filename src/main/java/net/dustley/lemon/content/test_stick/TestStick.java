@@ -25,11 +25,11 @@ public class TestStick extends DebugStickItem {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         var physics = PhysicsWorld.getFromWorld(world);
 
-        Vector2ic size = new Vector2i(50, 50);
-        double scale = 0.25;
+        Vector2ic size = new Vector2i(32, 32);
+        double scale = 0.5;
 
         Vector3dc leftPos = new Vector3d(user.getX(), user.getY(), user.getZ());
-        Vector3dc rightPos = new Vector3d(user.getX() + (size.x() * scale), user.getY(), user.getZ());
+        Vector3dc rightPos = new Vector3d(user.getX() + (size.x() * scale), user.getY(), user.getZ() + scale);
 
         Entity[][] entities = new Entity[size.x()][size.y()];
 
@@ -38,8 +38,8 @@ public class TestStick extends DebugStickItem {
                 Vector3d position = leftPos.add((x * scale), (y * scale), 0.0, new Vector3d());
 
                 entities[x][y] = physics.createEntity()
-                        .add(new ActorComponent(position, 0.1))
-                        .add(new SphereColliderComponent(0.25));
+                        .add(new ActorComponent(position, scale))
+                        .add(new SphereColliderComponent(scale));
 
                 physics.addConstraint(entities[x][y], new GravityConstraint(new Vector3d(0.0,-1.0,0.0)));
             }
