@@ -10,41 +10,6 @@ LemonLib is a library that aims to add dynamic physics, rendering, and general u
 
 <img alt="fabric" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/fabric_vector.svg">
 
-## Contributing
-
-Contributions are always welcome!
-
-See `contributing.md` for ways to get started.
-
-Please adhere to this project's `code of conduct`.
-
-Please respect the mods license
-[![MIT License](https://img.shields.io/badge/MIT-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-
-#### How To Build The Mod
-
-Clone the project
-
-```bash
-  git clone https://github.com/Dusty-Development/Simplici.git
-```
-or if your using github CLI
-```bash
-  gh repo clone Dusty-Development/Simplici
-```
-
-After you've cloned the repo
-
-Go to the project directory
-
-```bash
-  cd my-project
-```
-
-open the project directory in a java ide such as [Intellij](https://www.jetbrains.com/idea/) or [Eclipse](https://eclipseide.org)
-
-after gradle builds run the "runClient" gradle task for the desired launcher
-
 ## How to use
 add this to your build.gradle file!
 
