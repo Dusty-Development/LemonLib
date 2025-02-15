@@ -4,11 +4,10 @@ import dev.dominion.ecs.api.Dominion;
 import dev.dominion.ecs.api.Entity;
 import dev.dominion.ecs.api.Scheduler;
 import net.dustley.lemon.mixin_duck.PhysicsWorldDuck;
+import net.dustley.lemon.modules.citrus_physics.component.collision.containers.ColliderContainerComponent;
+import net.dustley.lemon.modules.citrus_physics.component.collision.colliders.Collider;
 import net.dustley.lemon.modules.citrus_physics.component.constraint.Constraint;
 import net.dustley.lemon.modules.citrus_physics.component.constraint.ConstraintComponent;
-import net.dustley.lemon.modules.citrus_physics.component.constraint.multi.FixedDistanceConstraint;
-import net.dustley.lemon.modules.citrus_physics.component.constraint.single.GravityConstraint;
-import net.dustley.lemon.modules.citrus_physics.component.constraint.single.StaticConstraint;
 import net.dustley.lemon.modules.citrus_physics.solver.CollisionSolver;
 import net.dustley.lemon.modules.citrus_physics.solver.ConstraintSolver;
 import net.dustley.lemon.modules.citrus_physics.solver.GenericsSolver;
@@ -27,7 +26,8 @@ public class PhysicsWorld {
     ArrayList<Solver> solvers = new ArrayList<>();
 
     public static int TICK_RATE = 45;
-    public static int CONSTRAINT_RESOLUTION = 16;
+    public static int CONSTRAINT_RESOLUTION = 8;
+    public static int COLLISION_RESOLUTION = 1;
 
     // HELPER //
     public static PhysicsWorld getFromWorld(World world) { return ((PhysicsWorldDuck) world).getPhysics(); }
@@ -58,7 +58,7 @@ public class PhysicsWorld {
     // SPECIFICATIONS //
     public void applySystems() {
         for (Solver solver : solvers) {
-            ecsScheduler.schedule(() -> solver.solve(1f / TICK_RATE));
+            ecsScheduler.schedule(() -> solver.solve(ecsScheduler.deltaTime()));
         }
     }
 
@@ -79,6 +79,17 @@ public class PhysicsWorld {
         }
 
         constraint.constraints.addAll(List.of(constraints));
+
+        return entity;
+    }
+
+    public Entity addCollider(Entity entity, ColliderContainerComponent type, Collider... colliders) {
+        var constraint = entity.get(type.getClass());
+        if(constraint == null) {
+            constraint = type;
+        }
+
+        constraint.shapes.addAll(List.of(colliders));
 
         return entity;
     }
