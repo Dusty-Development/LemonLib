@@ -1,6 +1,6 @@
 <center><div align="center">
 
-![Logo-Recovered](simplici_logo.png)
+![Logo-Recovered](src/main/resources/assets/lemon/icon.png)
 
 # Lemon 🍋
 
