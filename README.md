@@ -66,7 +66,8 @@ add this to your build.gradle file!
 - [Dusty-Development Team](https://github.com/Dusty-Development/people)
 
 #### 🔗 Links
-[![portfolio](https://img.shields.io/badge/Dustley's_Channel-000?style=for-the-badge&logo=youtube&logoColor=red)](https://www.youtube.com/channel/UC6_mejtQMMNBCyeju8Z0NpA)
+[![dust_yt](https://img.shields.io/badge/Dustley-000?style=for-the-badge&logo=youtube&logoColor=red)](https://www.youtube.com/channel/UC6_mejtQMMNBCyeju8Z0NpA)
+[![hollow_bsky](https://img.shields.io/badge/Hollowed-000?style=for-the-badge&logo=bluesky&logoColor=blue)](https://bsky.app/profile/hollowedwanderer.bsky.social)
 
 ## Credits
 
