@@ -1,11 +1,10 @@
 package net.dustley.lemon.content.test_stick;
 
 import dev.dominion.ecs.api.Entity;
-import net.dustley.lemon.LemonLib;
 import net.dustley.lemon.modules.citrus_physics.PhysicsWorld;
 import net.dustley.lemon.modules.citrus_physics.component.ActorComponent;
-import net.dustley.lemon.modules.citrus_physics.component.collision.SphereColliderComponent;
-import net.dustley.lemon.modules.citrus_physics.component.constraint.ConstraintComponent;
+import net.dustley.lemon.modules.citrus_physics.component.collision.colliders.SphereCollider;
+import net.dustley.lemon.modules.citrus_physics.component.collision.containers.WorldColliderContainer;
 import net.dustley.lemon.modules.citrus_physics.component.constraint.multi.FixedDistanceConstraint;
 import net.dustley.lemon.modules.citrus_physics.component.constraint.single.GravityConstraint;
 import net.dustley.lemon.modules.citrus_physics.component.constraint.single.StaticConstraint;
@@ -25,11 +24,11 @@ public class TestStick extends DebugStickItem {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         var physics = PhysicsWorld.getFromWorld(world);
 
-        Vector2ic size = new Vector2i(50, 50);
-        double scale = 0.25;
+        Vector2ic size = new Vector2i(32, 32);
+        double scale = 0.5;
 
         Vector3dc leftPos = new Vector3d(user.getX(), user.getY(), user.getZ());
-        Vector3dc rightPos = new Vector3d(user.getX() + (size.x() * scale), user.getY(), user.getZ());
+        Vector3dc rightPos = new Vector3d(user.getX() + (size.x() * scale), user.getY(), user.getZ() + scale);
 
         Entity[][] entities = new Entity[size.x()][size.y()];
 
@@ -37,11 +36,10 @@ public class TestStick extends DebugStickItem {
             for (int y = 0; y < size.y(); y++) {
                 Vector3d position = leftPos.add((x * scale), (y * scale), 0.0, new Vector3d());
 
-                entities[x][y] = physics.createEntity()
-                        .add(new ActorComponent(position, 0.1))
-                        .add(new SphereColliderComponent(0.25));
+                entities[x][y] = physics.createEntity().add(new ActorComponent(position, scale));
 
-                physics.addConstraint(entities[x][y], new GravityConstraint(new Vector3d(0.0,-1.0,0.0)));
+                physics.addConstraint(entities[x][y], new GravityConstraint(new Vector3d(0.0,-9.8,0.0)));
+                physics.addCollider(entities[x][y], new WorldColliderContainer(), new SphereCollider(scale * 0.5));
             }
         }
 
@@ -76,7 +74,7 @@ public class TestStick extends DebugStickItem {
  *
  *        var entityA = physics.createEntity()
  *                .add(new ActorComponent(new Vector3d(eyePos.x,eyePos.y,eyePos.z), 0.2))
- *                .add(new SphereColliderComponent(0.25))
+ *                .add(new SphereCollider(0.25))
  *                .add(new GravityConstraint(new Vector3d(0.0,-1.0,0.0)))
  *                .add(new StaticConstraint(new Vector3d(eyePos.x,eyePos.y,eyePos.z)));
  *
@@ -85,7 +83,7 @@ public class TestStick extends DebugStickItem {
  *        for (int i = 0; i < length; i++) {
  *            var entity = physics.createEntity()
  *                    .add(new ActorComponent(new Vector3d(eyePos.x + eyeDir.x, eyePos.y + eyeDir.y, eyePos.z + eyeDir.z), 0.1))
- *                    .add(new SphereColliderComponent(1))
+ *                    .add(new SphereCollider(1))
  *                    .add(new FixedDistanceConstraint(lastEntity, 0.1))
  *                    .add(new GravityConstraint(new Vector3d(0.0,-1.0,0.0)));
  *

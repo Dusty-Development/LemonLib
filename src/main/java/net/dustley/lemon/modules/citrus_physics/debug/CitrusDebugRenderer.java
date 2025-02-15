@@ -11,6 +11,7 @@ import org.joml.Vector3d;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static java.lang.Math.abs;
 import static java.lang.Math.clamp;
 
 public class CitrusDebugRenderer {
@@ -20,7 +21,7 @@ public class CitrusDebugRenderer {
             var physicsWorld = PhysicsWorld.getFromWorld(renderer.world());
 
             if(MinecraftClient.getInstance().getEntityRenderDispatcher().shouldRenderHitboxes()) {
-                AtomicInteger renderTokens = new AtomicInteger(5000); // In short how many particles can render at once
+                AtomicInteger renderTokens = new AtomicInteger(50000); // In short how many particles can render at once
 
                 physicsWorld.ecsWorld.findEntitiesWith(ActorComponent.class).stream().forEach(result -> {
                     if(renderTokens.get() > 0) {
@@ -38,8 +39,8 @@ public class CitrusDebugRenderer {
                             stack.translate(position.x, position.y, position.z);
 
                             var box = Box.of(Vec3d.ZERO, actor.mass, actor.mass, actor.mass);
-                            var vel = actor.position.sub(actor.positionCache, new Vector3d()).mul(50);
-                            DebugRenderer.drawBox(stack, consumers, box, (float) clamp(vel.x, 0.0, 1.0), (float) clamp(vel.y, 0.0, 1.0), (float) clamp(vel.z, 0.0, 1.0), 1f);
+                            var vel = actor.position.sub(actor.positionCache, new Vector3d()).mul(20);
+                            DebugRenderer.drawBox(stack, consumers, box, (float) clamp(abs(vel.x), 0.0, 1.0), (float) clamp(abs(vel.y), 0.0, 1.0), (float) clamp(abs(vel.z), 0.0, 1.0), 1f);
                             renderTokens.addAndGet(-1);
                             stack.pop();
                         }
