@@ -1,5 +1,6 @@
 package net.dustley.lemon.modules.citrus_physics.component.collision.containers;
 
+import net.dustley.lemon.modules.citrus_physics.PhysicsWorld;
 import net.dustley.lemon.modules.citrus_physics.component.ActorComponent;
 import net.dustley.lemon.modules.citrus_physics.component.collision.colliders.Collider;
 
@@ -9,6 +10,6 @@ public abstract class ColliderContainerComponent {
 
     public ArrayList<Collider> shapes = new ArrayList<>();
 
-    public abstract void solve(ActorComponent actor, double deltaTime);
+    public abstract void solve(PhysicsWorld physics, ActorComponent actor, double deltaTime);
 
 }

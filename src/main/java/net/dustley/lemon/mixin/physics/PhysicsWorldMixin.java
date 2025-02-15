@@ -2,7 +2,6 @@ package net.dustley.lemon.mixin.physics;
 
 import net.dustley.lemon.mixin_duck.PhysicsWorldDuck;
 import net.dustley.lemon.modules.citrus_physics.PhysicsWorld;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -18,12 +17,12 @@ public class PhysicsWorldMixin implements PhysicsWorldDuck {
 
 	@Inject(at = @At("TAIL"), method = "<init>")
 	private void init(CallbackInfo info) {
-		physicsWorld = new PhysicsWorld();
+		physicsWorld = new PhysicsWorld((World)(Object)this);
 	}
-//
+
 //	@Inject(at = @At("HEAD"), method = "tick")
 //	private void tick(CallbackInfo info) {
-//		physicsWorld.tick();
+//		physicsWorld.world = (World)(Object)this;
 //	}
 
 	@Inject(at = @At("TAIL"), method = "close")

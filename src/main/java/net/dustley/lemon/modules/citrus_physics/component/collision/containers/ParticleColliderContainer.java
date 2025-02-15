@@ -2,15 +2,28 @@ package net.dustley.lemon.modules.citrus_physics.component.collision.containers;
 
 import net.dustley.lemon.modules.citrus_physics.PhysicsWorld;
 import net.dustley.lemon.modules.citrus_physics.component.ActorComponent;
-import net.dustley.lemon.modules.citrus_physics.component.constraint.ConstraintComponent;
+import net.dustley.lemon.modules.citrus_physics.component.collision.colliders.Collider;
+
+import java.util.Optional;
 
 public class ParticleColliderContainer extends ColliderContainerComponent {
 
-    public void solve(ActorComponent actor, double deltaTime) {
-        // Use a simple n^2 algorithm for now... use a spatial grid later
-        for (int i = 0; i < PhysicsWorld.CONSTRAINT_RESOLUTION; i++) {
-//            ecsWorld.findEntitiesWith(ActorComponent.class, ConstraintComponent.class).stream().forEach(result -> result.comp2().solve(result.comp1(), deltaTime));
-        }
+    public void solve(PhysicsWorld physics, ActorComponent actor, double deltaTime) {
+        var ecsWorld = physics.ecsWorld;
+        ecsWorld.findEntitiesWith(ActorComponent.class, ParticleColliderContainer.class).stream().forEach(result -> {
+            var otherActor = result.comp1();
+            if(otherActor != actor && otherActor != null && !otherActor.position.equals(actor.position)) {
+                var container = result.comp2();
+
+                if(container != null) {
+                    for (Collider shape : shapes) {
+                        for (Collider otherShape : container.shapes) {
+                            shape.solve(actor, Optional.of(otherActor), otherActor.position, otherShape);
+                        }
+                    }
+                }
+            }
+        });
     }
 
 }

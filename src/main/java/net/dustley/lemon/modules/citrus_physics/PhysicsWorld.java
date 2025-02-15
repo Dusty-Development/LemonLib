@@ -4,8 +4,10 @@ import dev.dominion.ecs.api.Dominion;
 import dev.dominion.ecs.api.Entity;
 import dev.dominion.ecs.api.Scheduler;
 import net.dustley.lemon.mixin_duck.PhysicsWorldDuck;
-import net.dustley.lemon.modules.citrus_physics.component.collision.containers.ColliderContainerComponent;
 import net.dustley.lemon.modules.citrus_physics.component.collision.colliders.Collider;
+import net.dustley.lemon.modules.citrus_physics.component.collision.containers.EntityColliderContainer;
+import net.dustley.lemon.modules.citrus_physics.component.collision.containers.ParticleColliderContainer;
+import net.dustley.lemon.modules.citrus_physics.component.collision.containers.WorldColliderContainer;
 import net.dustley.lemon.modules.citrus_physics.component.constraint.Constraint;
 import net.dustley.lemon.modules.citrus_physics.component.constraint.ConstraintComponent;
 import net.dustley.lemon.modules.citrus_physics.solver.CollisionSolver;
@@ -20,20 +22,23 @@ import java.util.UUID;
 
 public class PhysicsWorld {
 
+    public World world;
     public Dominion ecsWorld;
     public Scheduler ecsScheduler;
 
     ArrayList<Solver> solvers = new ArrayList<>();
 
-    public static int TICK_RATE = 45;
-    public static int CONSTRAINT_RESOLUTION = 8;
-    public static int COLLISION_RESOLUTION = 1;
+    public static int TICK_RATE = 60;
+    public static int CONSTRAINT_RESOLUTION = 32;
+    public static int COLLISION_RESOLUTION = 2;
+    public static int MAX_SPEED = 200;
 
     // HELPER //
     public static PhysicsWorld getFromWorld(World world) { return ((PhysicsWorldDuck) world).getPhysics(); }
 
     // RUNTIME //
-    public PhysicsWorld() {
+    public PhysicsWorld(World gameWorld) {
+        world = gameWorld;
         ecsWorld = Dominion.create();
         ecsScheduler = ecsWorld.createScheduler();
 
@@ -52,13 +57,16 @@ public class PhysicsWorld {
     }
 
     public void destroy() {
+        for (Entity e : ecsWorld.findAllEntities()) {
+            ecsWorld.deleteEntity(e);
+        }
         ecsScheduler.shutDown();
     }
 
     // SPECIFICATIONS //
     public void applySystems() {
         for (Solver solver : solvers) {
-            ecsScheduler.schedule(() -> solver.solve(ecsScheduler.deltaTime()));
+            ecsScheduler.schedule(() -> solver.solve(1.0 / TICK_RATE));
         }
     }
 
@@ -83,10 +91,35 @@ public class PhysicsWorld {
         return entity;
     }
 
-    public Entity addCollider(Entity entity, ColliderContainerComponent type, Collider... colliders) {
-        var constraint = entity.get(type.getClass());
+    public Entity addParticleCollider(Entity entity, Collider... colliders) {
+        var constraint = entity.get(ParticleColliderContainer.class);
         if(constraint == null) {
-            constraint = type;
+            constraint = new ParticleColliderContainer();
+            entity.add(constraint);
+        }
+
+        constraint.shapes.addAll(List.of(colliders));
+
+        return entity;
+    }
+
+    public Entity addWorldCollider(Entity entity, Collider... colliders) {
+        var constraint = entity.get(WorldColliderContainer.class);
+        if(constraint == null) {
+            constraint = new WorldColliderContainer();
+            entity.add(constraint);
+        }
+
+        constraint.shapes.addAll(List.of(colliders));
+
+        return entity;
+    }
+
+    public Entity addEntityCollider(Entity entity, Collider... colliders) {
+        var constraint = entity.get(EntityColliderContainer.class);
+        if(constraint == null) {
+            constraint = new EntityColliderContainer();
+            entity.add(constraint);
         }
 
         constraint.shapes.addAll(List.of(colliders));

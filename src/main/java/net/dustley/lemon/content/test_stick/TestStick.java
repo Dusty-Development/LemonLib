@@ -4,7 +4,6 @@ import dev.dominion.ecs.api.Entity;
 import net.dustley.lemon.modules.citrus_physics.PhysicsWorld;
 import net.dustley.lemon.modules.citrus_physics.component.ActorComponent;
 import net.dustley.lemon.modules.citrus_physics.component.collision.colliders.SphereCollider;
-import net.dustley.lemon.modules.citrus_physics.component.collision.containers.WorldColliderContainer;
 import net.dustley.lemon.modules.citrus_physics.component.constraint.multi.FixedDistanceConstraint;
 import net.dustley.lemon.modules.citrus_physics.component.constraint.single.GravityConstraint;
 import net.dustley.lemon.modules.citrus_physics.component.constraint.single.StaticConstraint;
@@ -15,7 +14,10 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
-import org.joml.*;
+import org.joml.Vector2i;
+import org.joml.Vector2ic;
+import org.joml.Vector3d;
+import org.joml.Vector3dc;
 
 public class TestStick extends DebugStickItem {
     public TestStick() { super(new Settings().rarity(Rarity.EPIC).maxCount(1)); }
@@ -27,8 +29,8 @@ public class TestStick extends DebugStickItem {
         Vector2ic size = new Vector2i(32, 32);
         double scale = 0.5;
 
-        Vector3dc leftPos = new Vector3d(user.getX(), user.getY(), user.getZ());
-        Vector3dc rightPos = new Vector3d(user.getX() + (size.x() * scale), user.getY(), user.getZ() + scale);
+        Vector3dc leftPos = new Vector3d(user.getX() + 5, user.getY(), user.getZ() + 5);
+        Vector3dc rightPos = new Vector3d(user.getX() + (size.x() * scale) + 5, user.getY(), user.getZ() + scale + 5);
 
         Entity[][] entities = new Entity[size.x()][size.y()];
 
@@ -38,8 +40,9 @@ public class TestStick extends DebugStickItem {
 
                 entities[x][y] = physics.createEntity().add(new ActorComponent(position, scale));
 
-                physics.addConstraint(entities[x][y], new GravityConstraint(new Vector3d(0.0,-9.8,0.0)));
-                physics.addCollider(entities[x][y], new WorldColliderContainer(), new SphereCollider(scale * 0.5));
+                physics.addConstraint(entities[x][y], new GravityConstraint(new Vector3d(0.0,-1,0.0)));
+//                physics.addParticleCollider(entities[x][y], new SphereCollider(scale * 0.5));
+                physics.addEntityCollider(entities[x][y], new SphereCollider(scale * 0.5));
             }
         }
 
@@ -63,33 +66,38 @@ public class TestStick extends DebugStickItem {
 
         return super.use(world, user, hand);
     }
-}
 
-/*
- * public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
- *        var physics = PhysicsWorld.getFromWorld(world);
- *
- *        var eyePos = user.getEyePos();
- *        var eyeDir = user.getRotationVector();
- *
- *        var entityA = physics.createEntity()
- *                .add(new ActorComponent(new Vector3d(eyePos.x,eyePos.y,eyePos.z), 0.2))
- *                .add(new SphereCollider(0.25))
- *                .add(new GravityConstraint(new Vector3d(0.0,-1.0,0.0)))
- *                .add(new StaticConstraint(new Vector3d(eyePos.x,eyePos.y,eyePos.z)));
- *
- *        var length = 200;
- *        var lastEntity = entityA;
- *        for (int i = 0; i < length; i++) {
- *            var entity = physics.createEntity()
- *                    .add(new ActorComponent(new Vector3d(eyePos.x + eyeDir.x, eyePos.y + eyeDir.y, eyePos.z + eyeDir.z), 0.1))
- *                    .add(new SphereCollider(1))
- *                    .add(new FixedDistanceConstraint(lastEntity, 0.1))
- *                    .add(new GravityConstraint(new Vector3d(0.0,-1.0,0.0)));
- *
- *            lastEntity = entity;
- *        }
- *
- *        return super.use(world, user, hand);
- *    }
- */
+//    @Override
+//    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+//        var physics = PhysicsWorld.getFromWorld(world);
+//
+//        var eyePos = user.getEyePos();
+//        var eyeDir = user.getRotationVector();
+//
+//        var scale = 0.5;
+//        var dist = 0.05;
+//        var off = 5;
+//        var gravity = -0.98;
+//
+//        var pos = new Vector3d(eyePos.x + (eyeDir.x * off * scale),eyePos.y + (eyeDir.y * off * scale),eyePos.z + (eyeDir.z * off * scale));
+//        var entityA = physics.createEntity().add(new ActorComponent(pos, scale));
+//        physics.addConstraint(entityA, new StaticConstraint(new Vector3d(pos)));
+//
+//        var length = 50;
+//        var lastEntity = entityA;
+//        for (int i = 0; i < length; i++) {
+//            var entity = physics.createEntity().add(new ActorComponent(new Vector3d(eyePos.x + (eyeDir.x * (i + off) * scale), eyePos.y + (eyeDir.y * (i + off) * scale), eyePos.z + (eyeDir.z * (i + off) * scale)), scale));
+//            physics.addConstraint(entity, new FixedDistanceConstraint(lastEntity, scale + dist));
+//            physics.addConstraint(entity, new GravityConstraint(new Vector3d(0.0,gravity,0.0)));
+//
+//            var collider = new SphereCollider(scale * 0.5);
+////            physics.addParticleCollider(entity, collider);
+////            physics.addWorldCollider(entity, collider);
+//            physics.addEntityCollider(entity, collider);
+//
+//            lastEntity = entity;
+//        }
+//
+//        return super.use(world, user, hand);
+//    }
+}

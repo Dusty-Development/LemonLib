@@ -4,7 +4,9 @@ import dev.dominion.ecs.api.Dominion;
 import net.dustley.lemon.modules.citrus_physics.PhysicsWorld;
 import net.dustley.lemon.modules.citrus_physics.component.ActorComponent;
 import net.dustley.lemon.modules.citrus_physics.component.collision.containers.ColliderContainerComponent;
-import net.dustley.lemon.modules.citrus_physics.component.constraint.ConstraintComponent;
+import net.dustley.lemon.modules.citrus_physics.component.collision.containers.EntityColliderContainer;
+import net.dustley.lemon.modules.citrus_physics.component.collision.containers.ParticleColliderContainer;
+import net.dustley.lemon.modules.citrus_physics.component.collision.containers.WorldColliderContainer;
 
 public class CollisionSolver extends Solver {
 
@@ -12,8 +14,14 @@ public class CollisionSolver extends Solver {
 
     public void solve(double deltaTime) {
         for (int i = 0; i < PhysicsWorld.COLLISION_RESOLUTION; i++) {
-            ecsWorld.findEntitiesWith(ActorComponent.class, ColliderContainerComponent.class).stream().forEach(result -> result.comp2().solve(result.comp1(), deltaTime / PhysicsWorld.COLLISION_RESOLUTION));
+            ecsWorld.findEntitiesWith(ActorComponent.class, EntityColliderContainer.class).stream().forEach(result -> runForType(result.comp1(), result.comp2(), deltaTime));
+            ecsWorld.findEntitiesWith(ActorComponent.class, WorldColliderContainer.class).stream().forEach(result -> runForType(result.comp1(), result.comp2(), deltaTime));
+            ecsWorld.findEntitiesWith(ActorComponent.class, ParticleColliderContainer.class).stream().forEach(result -> runForType(result.comp1(), result.comp2(), deltaTime));
         }
+    }
+
+    public void runForType(ActorComponent actorComponent, ColliderContainerComponent colliderComponent, double deltaTime) {
+        colliderComponent.solve(world, actorComponent, deltaTime / PhysicsWorld.COLLISION_RESOLUTION);
     }
 
 }
