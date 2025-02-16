@@ -6,7 +6,7 @@ import org.joml.Vector3d;
 
 public class GravityConstraint extends SingleBodyConstraint {
 
-    Vector3d gravity;
+    public Vector3d gravity;
 
     public GravityConstraint(Vector3d accel) {
         gravity = accel;

@@ -7,7 +7,7 @@ import org.joml.Vector3d;
 
 public class FixedDistanceConstraint extends DoubleBodyConstraint {
 
-    double distance;
+    public double distance;
 
     public FixedDistanceConstraint(Entity other, double distance) {
         super(other);

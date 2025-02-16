@@ -6,7 +6,7 @@ import org.joml.Vector3d;
 
 public class StaticConstraint extends SingleBodyConstraint {
 
-    Vector3d position;
+    public Vector3d position;
 
     public StaticConstraint(Vector3d lockPos) {
         position = lockPos;
