@@ -19,7 +19,7 @@ public class LemonLib implements ModInitializer {
 	public void onInitialize() {
 		LOGGER.info("Hello Fabric world!");
 
-		ModItems.registerModItems();
+//		ModItems.registerModItems();
 		CitrusDebugRenderer.registerEvents();
 
 		/*
