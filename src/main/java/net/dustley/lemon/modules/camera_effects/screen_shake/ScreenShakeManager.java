@@ -8,6 +8,9 @@ import net.minecraft.util.math.random.Random;
 import java.util.ArrayList;
 import java.util.random.RandomGenerator;
 
+import static java.lang.Math.pow;
+
+// Credit to lodestone for help
 public class ScreenShakeManager {
 
     public static ArrayList<ScreenShake> activeInstances = new ArrayList<>();
@@ -26,9 +29,9 @@ public class ScreenShakeManager {
     }
 
     public static void clientTick(Camera camera) {
-        double sum = activeInstances.stream().mapToDouble(inst -> inst.update(camera)).sum();
+        float sum = (float) activeInstances.stream().mapToDouble(inst -> inst.update(camera)).sum();
 
-        intensity = (float) Math.pow(sum, 3);
+        intensity = (float) pow(sum, 3f);
         activeInstances.removeIf(instance -> instance.age >= instance.duration);
     }
 
@@ -37,10 +40,11 @@ public class ScreenShakeManager {
     }
 
     public static float randomizeOffset(int offset) {
-        float min = -intensity * 2;
-        float max = intensity * 2;
-        float sampled = (float) noise.sample((MinecraftClient.getInstance().world.getTime() % 24000L + MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(false))/intensity, offset, 0) * 1.5f;
-        return min >= max ? min : sampled * max;
+        float sampled = 0;
+        if (MinecraftClient.getInstance().world != null) {
+            sampled = (float) noise.sample((MinecraftClient.getInstance().world.getTime() % 24000 + MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(false))/intensity, offset, 0) * 1.5f;
+        }
+        return -intensity * 2 >= intensity * 2 ? -intensity * 2 : sampled * intensity * 2;
     }
 
 }

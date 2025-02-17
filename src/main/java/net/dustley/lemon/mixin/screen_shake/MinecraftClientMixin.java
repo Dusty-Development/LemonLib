@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 final class MinecraftClientMixin {
 
     @Inject(method = "tick", at = @At("TAIL"))
-    private void lodestone$clientTick(CallbackInfo ci) {
+    private void clientTick(CallbackInfo ci) {
         ScreenShakeManager.clientTick(MinecraftClient.getInstance().gameRenderer.getCamera());
     }
 
