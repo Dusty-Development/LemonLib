@@ -20,7 +20,7 @@ add this to your build.gradle file!
 > }
 > 
 > dependencies {
->       modImplementation 'com.github.Dusty-Development:LemonLib:1.21.1-SNAPSHOT'
+>       modImplementation 'com.github.Dusty-Development:LemonLib:main-SNAPSHOT'
 > }
 > ```
 
