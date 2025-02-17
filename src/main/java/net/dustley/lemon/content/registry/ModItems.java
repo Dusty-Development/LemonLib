@@ -2,6 +2,7 @@ package net.dustley.lemon.content.registry;
 
 import net.dustley.lemon.LemonLib;
 import net.dustley.lemon.content.test_freezer.Freezer;
+import net.dustley.lemon.content.test_shake.Shaker;
 import net.dustley.lemon.content.test_stick.TestStick;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
@@ -14,6 +15,7 @@ public class ModItems {
     // Items //
     public static final Item TESTER = registerItem("tester", new TestStick());
     public static final Item FREEZER = registerItem("freezer", new Freezer());
+    public static final Item SHAKER = registerItem("shaker", new Shaker());
 
     // Utility Functions //
     private static Item registerItem(String name, Item item) {
@@ -27,6 +29,7 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.OPERATOR).register(entries -> {
             entries.add(TESTER);
             entries.add(FREEZER);
+            entries.add(SHAKER);
         });
     }
 }
