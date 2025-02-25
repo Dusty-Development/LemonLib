@@ -29,6 +29,7 @@ dependencies {
 
 	// For phys
 	implementation "dev.dominion.ecs:dominion-ecs-engine:${project.dominion_version}"
+	include "dev.dominion.ecs:dominion-ecs-engine:${project.dominion_version}"
 }
 
 processResources {
