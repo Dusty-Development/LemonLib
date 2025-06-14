@@ -40,7 +40,6 @@ public class FreezeFrameManager {
     public static void renderFreeze() {
         // Pause the game's frame progression
         MinecraftClient client = MinecraftClient.getInstance();
-        client.getFramebuffer().beginWrite(false);
     }
 
     public static HudRenderCallback getOverlay() {
