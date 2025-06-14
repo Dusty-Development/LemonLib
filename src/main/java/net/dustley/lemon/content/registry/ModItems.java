@@ -24,6 +24,7 @@ public class ModItems {
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.OPERATOR).register(entries -> {
             entries.add(TESTER);
+
         });
     }
 }
