@@ -9,6 +9,8 @@
     "defaultRequire": 1
   },
   "client": [
-    "freeze_frames.GameRenderMixin"
+    "freeze_frames.GameRenderMixin",
+    "screen_shake.CameraMixin",
+    "screen_shake.MinecraftClientMixin"
   ]
 }

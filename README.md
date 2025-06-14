@@ -20,7 +20,7 @@ add this to your build.gradle file!
 > }
 > 
 > dependencies {
->       modImplementation 'com.github.Dusty-Development:LemonLib:1.21.1-SNAPSHOT'
+>       modImplementation 'com.github.Dusty-Development:LemonLib:main-SNAPSHOT'
 > }
 > ```
 
@@ -37,3 +37,4 @@ add this to your build.gradle file!
 ## Credits
 
 - [Dominion](https://github.com/dominion-dev/dominion-ecs-java) <- powerful ecs
+- [Lodestone-Quilt](https://github.com/Arathain/LodestoneLib-Quilt) <- I copied a bit of code
