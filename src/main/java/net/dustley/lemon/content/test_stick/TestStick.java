@@ -1,6 +1,7 @@
 package net.dustley.lemon.content.test_stick;
 
 import dev.dominion.ecs.api.Entity;
+import net.dustley.lemon.LemonLib;
 import net.dustley.lemon.modules.citrus_physics.PhysicsWorld;
 import net.dustley.lemon.modules.citrus_physics.component.ActorComponent;
 import net.dustley.lemon.modules.citrus_physics.component.collision.colliders.SphereCollider;
@@ -9,10 +10,11 @@ import net.dustley.lemon.modules.citrus_physics.component.constraint.single.Grav
 import net.dustley.lemon.modules.citrus_physics.component.constraint.single.StaticConstraint;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DebugStickItem;
-import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.joml.Vector2i;
 import org.joml.Vector2ic;
@@ -20,10 +22,12 @@ import org.joml.Vector3d;
 import org.joml.Vector3dc;
 
 public class TestStick extends DebugStickItem {
-    public TestStick() { super(new Settings().rarity(Rarity.EPIC).maxCount(1)); }
+    public TestStick() {
+        super(new Settings().rarity(Rarity.EPIC).maxCount(1).registryKey(RegistryKey.of(RegistryKeys.ITEM, LemonLib.id("tester"))));
+    }
 
     @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+    public ActionResult use(World world, PlayerEntity user, Hand hand) {
         var physics = PhysicsWorld.getFromWorld(world);
 
         Vector2ic size = new Vector2i(32, 32);
