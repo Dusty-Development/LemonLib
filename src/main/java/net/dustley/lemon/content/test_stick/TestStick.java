@@ -9,10 +9,10 @@ import net.dustley.lemon.modules.citrus_physics.component.constraint.single.Grav
 import net.dustley.lemon.modules.citrus_physics.component.constraint.single.StaticConstraint;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DebugStickItem;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.joml.Vector2i;
 import org.joml.Vector2ic;
@@ -20,10 +20,12 @@ import org.joml.Vector3d;
 import org.joml.Vector3dc;
 
 public class TestStick extends DebugStickItem {
-    public TestStick() { super(new Settings().rarity(Rarity.EPIC).maxCount(1)); }
+    public TestStick(Item.Settings settings) {
+        super(settings.rarity(Rarity.EPIC).maxCount(1));
+    }
 
     @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+    public ActionResult use(World world, PlayerEntity user, Hand hand) {
         var physics = PhysicsWorld.getFromWorld(world);
 
         Vector2ic size = new Vector2i(32, 32);

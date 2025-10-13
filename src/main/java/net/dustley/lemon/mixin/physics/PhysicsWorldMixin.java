@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(World.class)
 public class PhysicsWorldMixin implements PhysicsWorldDuck {
 
-	@Override public PhysicsWorld getPhysics() { return physicsWorld; }
+	@Override public PhysicsWorld lemonLib$getPhysics() { return physicsWorld; }
 	@Unique PhysicsWorld physicsWorld;
 
 	@Inject(at = @At("TAIL"), method = "<init>")
