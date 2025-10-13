@@ -34,7 +34,7 @@ public class PhysicsWorld {
     public static int MAX_SPEED = 200;
 
     // HELPER //
-    public static PhysicsWorld getFromWorld(World world) { return ((PhysicsWorldDuck) world).getPhysics(); }
+    public static PhysicsWorld getFromWorld(World world) { return ((PhysicsWorldDuck) world).lemonLib$getPhysics(); }
 
     // RUNTIME //
     public PhysicsWorld(World gameWorld) {

@@ -4,6 +4,6 @@ import net.dustley.lemon.modules.citrus_physics.PhysicsWorld;
 
 public interface PhysicsWorldDuck {
 
-    public PhysicsWorld getPhysics();
+    PhysicsWorld lemonLib$getPhysics();
 
 }

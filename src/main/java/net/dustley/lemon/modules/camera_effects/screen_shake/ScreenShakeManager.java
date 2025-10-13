@@ -6,7 +6,6 @@ import net.minecraft.util.math.noise.PerlinNoiseSampler;
 import net.minecraft.util.math.random.Random;
 
 import java.util.ArrayList;
-import java.util.random.RandomGenerator;
 
 import static java.lang.Math.pow;
 
@@ -42,7 +41,7 @@ public class ScreenShakeManager {
     public static float randomizeOffset(int offset) {
         float sampled = 0;
         if (MinecraftClient.getInstance().world != null) {
-            sampled = (float) noise.sample((MinecraftClient.getInstance().world.getTime() % 24000 + MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(false))/intensity, offset, 0) * 1.5f;
+            sampled = (float) noise.sample((MinecraftClient.getInstance().world.getTime() % 24000 + MinecraftClient.getInstance().getRenderTickCounter().getTickProgress(false))/intensity, offset, 0) * 1.5f;
         }
         return -intensity * 2 >= intensity * 2 ? -intensity * 2 : sampled * intensity * 2;
     }
