@@ -15,22 +15,24 @@ public abstract class Collider {
     public abstract ColliderType getType();
 
     public void solve(ActorComponent actor, Optional<ActorComponent> optionalOtherActor, Vector3dc otherPos, Collider otherCollider) {
-
         var optionalCollisionResult = getResult(new Vector3d(actor.position), new Vector3d(otherPos), otherCollider);
-        if(optionalCollisionResult.isPresent()) {
-            CollisionResult collisionResult = optionalCollisionResult.get();
+        optionalCollisionResult.ifPresent(collisionResult -> SolveCollisionResult(collisionResult, actor, optionalOtherActor));
+    }
 
-            // TODO: this should be changed to include mass
-            var moveAmountA = 0.5;
-//            if(optionalOtherActor.isEmpty()) moveAmountA = 1;
-            var moveAmountB = 1 - moveAmountA;
+    public void SolveCollisionResult(CollisionResult collisionResult, ActorComponent actor, Optional<ActorComponent> optionalOtherActor) {
 
-            actor.position.add(collisionResult.resolutionVector.mul(moveAmountA, new Vector3d()));
+        // TODO: this should be changed to include mass
+        var moveAmountA = 0.5;
+        var moveAmountB = 1 - moveAmountA;
 
-            if(optionalOtherActor.isPresent()) {
-                var otherActor = optionalOtherActor.get();
-                otherActor.position.sub(collisionResult.resolutionVector.mul(moveAmountB, new Vector3d()));
-            }
+        // This does not need to effect B since B is empty... Dummy...
+        if(optionalOtherActor.isEmpty()) moveAmountA = 1;
+
+        actor.position.add(collisionResult.resolutionVector.mul(moveAmountA, new Vector3d()));
+
+        if(optionalOtherActor.isPresent()) {
+            var otherActor = optionalOtherActor.get();
+            otherActor.position.sub(collisionResult.resolutionVector.mul(moveAmountB, new Vector3d()));
         }
     }
 

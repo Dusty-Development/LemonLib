@@ -16,7 +16,7 @@ public class GenericsSolver extends Solver {
         ecsWorld.findEntitiesWith(ActorComponent.class).stream().forEach(result -> {
             ActorComponent actor = result.comp();
 
-            MAX_SPEED = 50;
+            MAX_SPEED = 5;
 
             // Moves the particle based on velocity
             Vector3d velocity = actor.position.sub(actor.positionCache, new Vector3d());

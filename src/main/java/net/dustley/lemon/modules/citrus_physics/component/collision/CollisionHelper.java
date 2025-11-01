@@ -18,6 +18,16 @@ public class CollisionHelper {
         resolutionVector.normalize().mul(sphere.radius - spherePos.distance(collisionPoint));
 
         return new CollisionResult(collisionPoint, resolutionVector);
+
+//        double distanceSquared = spherePos.distanceSquared(boxPos);
+//        double radiusSum = sphere.radius + (box.bounds.getAverageSideLength() * 0.5);
+//        if (distanceSquared > (radiusSum * radiusSum)) return null;
+//
+//        Vector3d resolutionVector = new Vector3d(boxPos).sub(spherePos);
+//        resolutionVector.normalize().mul(radiusSum - Math.sqrt(distanceSquared));
+//
+//        return new CollisionResult(new Vector3d(spherePos).lerp(boxPos, 0.5), resolutionVector);
+
     }
 
     public static CollisionResult collidePointAABB(Vector3dc pointPos, Vector3dc boxPos, BoxCollider box){ return collideAABBPoint(boxPos, box, pointPos); }

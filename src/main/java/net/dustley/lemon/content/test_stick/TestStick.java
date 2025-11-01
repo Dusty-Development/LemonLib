@@ -44,7 +44,9 @@ public class TestStick extends DebugStickItem {
 
                 physics.addConstraint(entities[x][y], new GravityConstraint(new Vector3d(0.0,-1,0.0)));
 //                physics.addParticleCollider(entities[x][y], new SphereCollider(scale * 0.5));
-                physics.addEntityCollider(entities[x][y], new SphereCollider(scale * 0.5));
+                var collider = new SphereCollider(scale * 0.5);
+                physics.addWorldCollider(entities[x][y], collider);
+                physics.addEntityCollider(entities[x][y], collider);
             }
         }
 
@@ -69,37 +71,39 @@ public class TestStick extends DebugStickItem {
         return super.use(world, user, hand);
     }
 
-//    @Override
-//    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-//        var physics = PhysicsWorld.getFromWorld(world);
+//        @Override
+//        public ActionResult use(World world, PlayerEntity user, Hand hand) {
+//            var physics = PhysicsWorld.getFromWorld(world);
 //
-//        var eyePos = user.getEyePos();
-//        var eyeDir = user.getRotationVector();
+//            var eyePos = user.getEyePos();
+//            var eyeDir = user.getRotationVector();
 //
-//        var scale = 0.5;
-//        var dist = 0.05;
-//        var off = 5;
-//        var gravity = -0.98;
+//            var scale = 0.5;
+//            var dist = 0.05;
+//            var off = 5;
+//            var gravity = -0.98;
 //
-//        var pos = new Vector3d(eyePos.x + (eyeDir.x * off * scale),eyePos.y + (eyeDir.y * off * scale),eyePos.z + (eyeDir.z * off * scale));
-//        var entityA = physics.createEntity().add(new ActorComponent(pos, scale));
-//        physics.addConstraint(entityA, new StaticConstraint(new Vector3d(pos)));
+//            var pos = new Vector3d(eyePos.x + (eyeDir.x * off * scale),eyePos.y + (eyeDir.y * off * scale),eyePos.z + (eyeDir.z * off * scale));
+//            var entityA = physics.createEntity().add(new ActorComponent(pos, scale));
+//            physics.addConstraint(entityA, new StaticConstraint(new Vector3d(pos)));
 //
-//        var length = 50;
-//        var lastEntity = entityA;
-//        for (int i = 0; i < length; i++) {
-//            var entity = physics.createEntity().add(new ActorComponent(new Vector3d(eyePos.x + (eyeDir.x * (i + off) * scale), eyePos.y + (eyeDir.y * (i + off) * scale), eyePos.z + (eyeDir.z * (i + off) * scale)), scale));
-//            physics.addConstraint(entity, new FixedDistanceConstraint(lastEntity, scale + dist));
-//            physics.addConstraint(entity, new GravityConstraint(new Vector3d(0.0,gravity,0.0)));
+//            var length = 32;
+//            var lastEntity = entityA;
+//            for (int i = 0; i < length; i++) {
+//                var entity = physics.createEntity().add(new ActorComponent(new Vector3d(eyePos.x + (eyeDir.x * (i + off) * scale), eyePos.y + (eyeDir.y * (i + off) * scale), eyePos.z + (eyeDir.z * (i + off) * scale)), scale));
+//                physics.addConstraint(entity, new FixedDistanceConstraint(lastEntity, scale + dist));
+//                physics.addConstraint(entity, new GravityConstraint(new Vector3d(0.0, gravity, 0.0)));
 //
-//            var collider = new SphereCollider(scale * 0.5);
-////            physics.addParticleCollider(entity, collider);
-////            physics.addWorldCollider(entity, collider);
-//            physics.addEntityCollider(entity, collider);
+//                var collider = new SphereCollider(scale * 0.5);
+////                physics.addParticleCollider(entity, collider);
+//                physics.addWorldCollider(entity, collider);
+////                physics.addEntityCollider(entity, collider);
 //
-//            lastEntity = entity;
+//                lastEntity = entity;
+//            }
+//
+//            PhysicsWorld.COLLISION_RESOLUTION = 32;
+//
+//            return super.use(world, user, hand);
 //        }
-//
-//        return super.use(world, user, hand);
-//    }
 }

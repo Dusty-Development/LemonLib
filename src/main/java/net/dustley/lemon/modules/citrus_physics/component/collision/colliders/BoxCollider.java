@@ -22,7 +22,7 @@ public class BoxCollider extends Collider {
 
     public Optional<CollisionResult> getResult(Vector3dc pos, Vector3dc otherPos, Collider otherCollider) {
         switch (otherCollider.getType()) {
-            case SPHERE -> { return Optional.of(CollisionHelper.collideAABBSphere(pos, this, otherPos, (SphereCollider) otherCollider)); }
+            case SPHERE -> { return Optional.ofNullable(CollisionHelper.collideAABBSphere(pos, this, otherPos, (SphereCollider) otherCollider)); }
             case BOX -> { return Optional.ofNullable(CollisionHelper.collideAABBAABB(pos, this, otherPos, (BoxCollider) otherCollider)); }
             case POINT -> { return Optional.ofNullable(CollisionHelper.collideAABBPoint(pos, this, otherPos)); }
         }
