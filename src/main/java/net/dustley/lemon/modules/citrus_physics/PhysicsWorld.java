@@ -127,4 +127,15 @@ public class PhysicsWorld {
         return entity;
     }
 
+    public Entity addEntityCollider(net.minecraft.entity.Entity except, Entity entity, Collider... colliders) {
+        var constraint = entity.get(EntityColliderContainer.class);
+        if(constraint == null) {
+            constraint = new EntityColliderContainer(except);
+            entity.add(constraint);
+        }
+
+        constraint.shapes.addAll(List.of(colliders));
+
+        return entity;
+    }
 }
